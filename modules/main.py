@@ -57,6 +57,8 @@ async def main():
         site = web.TCPSite(app_runner, "0.0.0.0", PORT)
         await site.start()
         print(f"Web server started on port {PORT}")
+    
+    pwtoken = globals.pwtoken
 
     # Start the bot
     await start_bot()
