@@ -90,6 +90,20 @@ async def restart_handler(_, m):
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
+@bot.on_callback_query(filters.regex("pw_token_command"))
+    async def handle_token(client, callback_query):
+        user_id = callback_query.from_user.id
+        editable = await callback_query.message.edit("**Send Physics Wallah Same Batch Token**", reply_markup=keyboard)
+        input_msg = await bot.listen(editable.chat.id)
+        try:
+            globals.pwtoken = input_msg.text
+            await editable.edit(f"✅ Physics Wallah Token set successfully !\n\n<blockquote expandable>`{globals.pwtoken}`</blockquote>", reply_markup=keyboard) 
+        except Exception as e:
+            await editable.edit(f"<b>❌ Failed to set Physics Wallah Token:</b>\n<blockquote expandable>{str(e)}</blockquote>", reply_markup=keyboard)
+        finally:
+            await input_msg.delete()
+
+
 
 @bot.on_message(filters.command(["upload"]))
 async def account_login(bot: Client, m: Message):
